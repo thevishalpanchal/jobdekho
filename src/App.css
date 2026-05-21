@@ -1,38 +1,214 @@
-.App {
-  text-align: center;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container{
+  height:100vh;
+  background:linear-gradient(to right,#141e30,#243b55);
+  color:white;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.overlay{
+  padding:20px 60px;
+}
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.nav-links button{
+  margin-left:15px;
+  padding:10px 20px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.hero-section{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  height:85vh;
+}
+
+.left{
+  width:50%;
+}
+
+.left h1{
+  font-size:60px;
+  margin-bottom:20px;
+}
+
+.left p{
+  font-size:20px;
+  margin-bottom:30px;
+}
+
+.role-buttons button{
+  margin-right:20px;
+  padding:15px 30px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.candidate-btn{
+  background:#00c6ff;
+  color:white;
+}
+
+.employer-btn{
+  background:#ff4b2b;
+  color:white;
+}
+
+.right{
+  width:40%;
+  display:flex;
+  justify-content:center;
+}
+
+.login-card{
+  background:white;
+  color:black;
+  padding:40px;
+  width:350px;
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+.login-card h2{
+  margin-bottom:20px;
+  text-align:center;
+}
+
+.login-card input{
+  width:100%;
+  padding:12px;
+  margin-bottom:20px;
+  border:1px solid gray;
+  border-radius:5px;
+}
+
+.login-btn{
+  width:100%;
+  padding:12px;
+  background:#243b55;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.login-card p{
+  margin-top:15px;
+  text-align:center;
+}
+
+.login-card span{
+  color:blue;
+  cursor:pointer;
+}
+
+.message{
+  color:red;
+  margin-top:15px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.login-card select{
+  width:100%;
+  padding:12px;
+  margin-bottom:20px;
+  border:1px solid gray;
+  border-radius:5px;
+}
+
+/* .message{
+  color:red;
+  margin-top:15px;
+  text-align:center;
+  font-weight:bold;
+} */
+.success-message{
+  color:green;
+  margin-top:15px;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:768px){
+
+  .overlay{
+    padding:20px;
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .navbar{
+    flex-direction:column;
+    gap:15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .hero-section{
+    flex-direction:column;
+    justify-content:center;
+    height:auto;
+    gap:40px;
+    padding-top:40px;
   }
+
+  /* LEFT SECTION */
+
+  .left{
+    width:100%;
+    text-align:center;
+  }
+
+  .left h1{
+    font-size:52px;
+    line-height:1.1;
+  }
+
+  .left p{
+    font-size:22px;
+  }
+
+  .role-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .role-buttons button{
+    width:100%;
+  }
+
+  /* RIGHT SECTION */
+
+  .right{
+    width:100%;
+  }
+
+  .login-card{
+    width:100%;
+    max-width:360px;
+    padding:30px 25px;
+  }
+
+  .login-card h2{
+    font-size:32px;
+  }
+
 }

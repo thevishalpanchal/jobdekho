@@ -1,0 +1,165 @@
+/* MAIN CONTAINER */
+
+.cv-container{
+    display:flex;
+    gap:30px;
+    padding:30px;
+    background:#f1f5f9;
+    min-height:100vh;
+    flex-wrap:wrap;
+    font-family:Arial, sans-serif;
+}
+
+/* FORM SECTION */
+
+.cv-form{
+    flex:1;
+    min-width:350px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    height:fit-content;
+}
+
+.cv-form h1{
+    margin-bottom:25px;
+    color:#0f172a;
+    font-size:32px;
+}
+
+.cv-form input,
+.cv-form textarea{
+    width:100%;
+    padding:14px;
+    margin-bottom:18px;
+    border-radius:12px;
+    border:1px solid #cbd5e1;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+.cv-form input:focus,
+.cv-form textarea:focus{
+    border-color:#2563eb;
+}
+
+.cv-form textarea{
+    min-height:120px;
+    resize:none;
+}
+
+/* BUTTONS */
+
+.cv-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.cv-buttons button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.cv-buttons button:hover{
+    background:#1d4ed8;
+}
+
+/* PREVIEW */
+
+.cv-preview{
+    flex:1;
+    min-width:350px;
+    background:white;
+    padding:45px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    color:#0f172a;
+}
+
+/* HEADER */
+
+.cv-preview h1{
+    font-size:38px;
+    margin-bottom:5px;
+    text-transform:uppercase;
+}
+
+.cv-preview h3{
+    color:#2563eb;
+    margin-bottom:15px;
+    font-size:22px;
+}
+
+.cv-preview p{
+    line-height:1.8;
+    color:#334155;
+    margin-top:10px;
+}
+
+/* SECTION */
+
+.cv-preview h2{
+    margin-top:30px;
+    margin-bottom:10px;
+    color:#0f172a;
+    border-bottom:2px solid #2563eb;
+    padding-bottom:5px;
+    font-size:20px;
+}
+
+.cv-preview hr{
+    margin:20px 0;
+    border:none;
+    border-top:1px solid #cbd5e1;
+}
+
+/* PRINT */
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .cv-form{
+        display:none;
+    }
+
+    .cv-preview{
+        box-shadow:none;
+        width:100%;
+        border-radius:0;
+        padding:20px;
+    }
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .cv-container{
+        flex-direction:column;
+        padding:15px;
+    }
+
+    .cv-preview,
+    .cv-form{
+        min-width:100%;
+    }
+
+    .cv-buttons{
+        flex-direction:column;
+    }
+
+}
