@@ -1,5 +1,6 @@
 import "./AdminDashboard.css";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 import {
     useEffect,
@@ -12,14 +13,14 @@ function AdminDashboard({
 }) {
 
     const [users, setUsers]
-    = useState([]);
+        = useState([]);
 
     const [jobs, setJobs]
-    = useState([]);
+        = useState([]);
 
     const [activeSection,
-    setActiveSection]
-    = useState("dashboard");
+        setActiveSection]
+        = useState("dashboard");
 
     // FETCH USERS + JOBS
 
@@ -33,40 +34,40 @@ function AdminDashboard({
     const fetchUsers = () => {
 
         axios.get(
-            "http://localhost:8085/users"
+            `${API_BASE_URL}/users`
         )
 
-        .then(response => {
+            .then(response => {
 
-            setUsers(response.data);
+                setUsers(response.data);
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            console.log(error);
+                console.log(error);
 
-        });
+            });
 
     };
 
     const fetchJobs = () => {
 
         axios.get(
-            "http://localhost:8085/jobs"
+            `${API_BASE_URL}/jobs`
         )
 
-        .then(response => {
+            .then(response => {
 
-            setJobs(response.data);
+                setJobs(response.data);
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            console.log(error);
+                console.log(error);
 
-        });
+            });
 
     };
 
@@ -75,22 +76,22 @@ function AdminDashboard({
     const deleteUser = (id) => {
 
         axios.delete(
-            `http://localhost:8085/users/${id}`
-        )
+    `${API_BASE_URL}/users/${id}`
+)
 
-        .then(response => {
+            .then(response => {
 
-            alert("User Deleted");
+                alert("User Deleted");
 
-            fetchUsers();
+                fetchUsers();
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            console.log(error);
+                console.log(error);
 
-        });
+            });
 
     };
 
@@ -99,22 +100,22 @@ function AdminDashboard({
     const deleteJob = (id) => {
 
         axios.delete(
-            `http://localhost:8085/jobs/${id}`
-        )
+    `${API_BASE_URL}/jobs/${id}`
+)
 
-        .then(response => {
+            .then(response => {
 
-            alert("Job Deleted");
+                alert("Job Deleted");
 
-            fetchJobs();
+                fetchJobs();
 
-        })
+            })
 
-        .catch(error => {
+            .catch(error => {
 
-            console.log(error);
+                console.log(error);
 
-        });
+            });
 
     };
 
@@ -127,7 +128,7 @@ function AdminDashboard({
             <div className="admin-sidebar">
 
                 <h2>
-                    JobDekho
+                    Ardhnarishwar
                 </h2>
 
                 <p>
@@ -138,21 +139,21 @@ function AdminDashboard({
 
                     <li
                         onClick={() =>
-                        setActiveSection("dashboard")}
+                            setActiveSection("dashboard")}
                     >
                         Dashboard
                     </li>
 
                     <li
                         onClick={() =>
-                        setActiveSection("users")}
+                            setActiveSection("users")}
                     >
                         Users
                     </li>
 
                     <li
                         onClick={() =>
-                        setActiveSection("jobs")}
+                            setActiveSection("jobs")}
                     >
                         Jobs
                     </li>
@@ -172,217 +173,217 @@ function AdminDashboard({
                 {/* DASHBOARD */}
 
                 {
-                activeSection === "dashboard"
-                && (
+                    activeSection === "dashboard"
+                    && (
 
-                    <div>
+                        <div>
 
-                        <h1>
-                            Admin Dashboard
-                        </h1>
+                            <h1>
+                                Admin Dashboard
+                            </h1>
 
-                        <div className="stats-grid">
+                            <div className="stats-grid">
 
-                            <div className="stat-box">
+                                <div className="stat-box">
 
-                                <h2>
-                                    {users.length}
-                                </h2>
+                                    <h2>
+                                        {users.length}
+                                    </h2>
 
-                                <p>
-                                    Total Users
-                                </p>
+                                    <p>
+                                        Total Users
+                                    </p>
 
-                            </div>
+                                </div>
 
-                            <div className="stat-box">
+                                <div className="stat-box">
 
-                                <h2>
-                                    {
-                                        users.filter(
-                                            user =>
-                                            user.role ===
-                                            "candidate"
-                                        ).length
-                                    }
-                                </h2>
+                                    <h2>
+                                        {
+                                            users.filter(
+                                                user =>
+                                                    user.role ===
+                                                    "candidate"
+                                            ).length
+                                        }
+                                    </h2>
 
-                                <p>
-                                    Candidates
-                                </p>
+                                    <p>
+                                        Candidates
+                                    </p>
 
-                            </div>
+                                </div>
 
-                            <div className="stat-box">
+                                <div className="stat-box">
 
-                                <h2>
-                                    {
-                                        users.filter(
-                                            user =>
-                                            user.role ===
-                                            "employer"
-                                        ).length
-                                    }
-                                </h2>
+                                    <h2>
+                                        {
+                                            users.filter(
+                                                user =>
+                                                    user.role ===
+                                                    "employer"
+                                            ).length
+                                        }
+                                    </h2>
 
-                                <p>
-                                    Employers
-                                </p>
+                                    <p>
+                                        Employers
+                                    </p>
 
-                            </div>
+                                </div>
 
-                            <div className="stat-box">
+                                <div className="stat-box">
 
-                                <h2>
-                                    {jobs.length}
-                                </h2>
+                                    <h2>
+                                        {jobs.length}
+                                    </h2>
 
-                                <p>
-                                    Total Jobs
-                                </p>
+                                    <p>
+                                        Total Jobs
+                                    </p>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
-
-                )
+                    )
                 }
 
                 {/* USERS */}
 
                 {
-                activeSection === "users"
-                && (
+                    activeSection === "users"
+                    && (
 
-                    <div>
+                        <div>
 
-                        <h1>
-                            All Users
-                        </h1>
+                            <h1>
+                                All Users
+                            </h1>
 
-                        <div className="table-container">
+                            <div className="table-container">
 
-                            <table>
+                                <table>
 
-                                <thead>
+                                    <thead>
 
-                                    <tr>
+                                        <tr>
 
-                                        <th>Name</th>
+                                            <th>Name</th>
 
-                                        <th>Email</th>
+                                            <th>Email</th>
 
-                                        <th>Role</th>
+                                            <th>Role</th>
 
-                                        <th>Action</th>
+                                            <th>Action</th>
 
-                                    </tr>
+                                        </tr>
 
-                                </thead>
+                                    </thead>
 
-                                <tbody>
+                                    <tbody>
 
-                                    {
-                                        users.map(user => (
+                                        {
+                                            users.map(user => (
 
-                                            <tr
-                                                key={user.id}
-                                            >
+                                                <tr
+                                                    key={user.id}
+                                                >
 
-                                                <td>
-                                                    {user.name}
-                                                </td>
+                                                    <td>
+                                                        {user.name}
+                                                    </td>
 
-                                                <td>
-                                                    {user.email}
-                                                </td>
+                                                    <td>
+                                                        {user.email}
+                                                    </td>
 
-                                                <td>
-                                                    {user.role}
-                                                </td>
+                                                    <td>
+                                                        {user.role}
+                                                    </td>
 
-                                                <td>
+                                                    <td>
 
-                                                    <button
-                                                        className="delete-btn"
-                                                        onClick={() =>
-                                                        deleteUser(user.id)}
-                                                    >
-                                                        Delete
-                                                    </button>
+                                                        <button
+                                                            className="delete-btn"
+                                                            onClick={() =>
+                                                                deleteUser(user.id)}
+                                                        >
+                                                            Delete
+                                                        </button>
 
-                                                </td>
+                                                    </td>
 
-                                            </tr>
+                                                </tr>
 
-                                        ))
-                                    }
+                                            ))
+                                        }
 
-                                </tbody>
+                                    </tbody>
 
-                            </table>
+                                </table>
+
+                            </div>
 
                         </div>
 
-                    </div>
-
-                )
+                    )
                 }
 
                 {/* JOBS */}
 
                 {
-                activeSection === "jobs"
-                && (
+                    activeSection === "jobs"
+                    && (
 
-                    <div>
+                        <div>
 
-                        <h1>
-                            All Jobs
-                        </h1>
+                            <h1>
+                                All Jobs
+                            </h1>
 
-                        <div className="jobs-grid">
+                            <div className="jobs-grid">
 
-                            {
-                                jobs.map(job => (
+                                {
+                                    jobs.map(job => (
 
-                                    <div
-                                        className="job-card"
-                                        key={job.id}
-                                    >
-
-                                        <h3>
-                                            {job.title}
-                                        </h3>
-
-                                        <p>
-                                            {job.company}
-                                        </p>
-
-                                        <p>
-                                            {job.location}
-                                        </p>
-
-                                        <button
-                                            className="delete-btn"
-                                            onClick={() =>
-                                            deleteJob(job.id)}
+                                        <div
+                                            className="job-card"
+                                            key={job.id}
                                         >
-                                            Delete
-                                        </button>
 
-                                    </div>
+                                            <h3>
+                                                {job.title}
+                                            </h3>
 
-                                ))
-                            }
+                                            <p>
+                                                {job.company}
+                                            </p>
+
+                                            <p>
+                                                {job.location}
+                                            </p>
+
+                                            <button
+                                                className="delete-btn"
+                                                onClick={() =>
+                                                    deleteJob(job.id)}
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </div>
+
+                                    ))
+                                }
+
+                            </div>
 
                         </div>
 
-                    </div>
-
-                )
+                    )
                 }
 
             </div>

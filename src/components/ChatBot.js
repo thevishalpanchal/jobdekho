@@ -16,7 +16,7 @@ function ChatBot() {
                 sender: "bot",
 
                 text:
-                    "Hello 👋 I am JobDekho AI. How can I help you?"
+                    "Hello 👋 I am Ardhnarishwar AI. How can I help you?"
             }
 
         ]);
@@ -251,7 +251,7 @@ function ChatBot() {
         <div className="chatbot-container">
 
             <h1>
-                JobDekho AI Assistant
+                Ardhnarishwar AI Assistant
             </h1>
 
             {}

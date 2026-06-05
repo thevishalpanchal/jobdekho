@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "../config";
 
 function Register() {
 
@@ -23,7 +24,7 @@ function Register() {
 
         e.preventDefault();
 
-        axios.post("http://localhost:8085/users/register", user)
+        axios.post(`${API_BASE_URL}/users/register`, user)
             .then(response => {
 
                 alert("Registration Successful");

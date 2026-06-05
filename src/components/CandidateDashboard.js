@@ -1,6 +1,7 @@
 import "./CandidateDashboard.css";
 import axios from "axios";
 import ChatBot from "./ChatBot";
+import API_BASE_URL from "../config";
 
 
 import {
@@ -15,6 +16,17 @@ function CandidateDashboard({
     logout
 }) {
 
+    const [atsFile,
+        setAtsFile]
+        = useState(null);
+
+    const [selectedJob,
+        setSelectedJob]
+        = useState("");
+
+    const [atsResult,
+        setAtsResult]
+        = useState(null);
     // JOBS
 
     const [jobs, setJobs]
@@ -32,13 +44,52 @@ function CandidateDashboard({
 
     // PROFILE DATA
 
-    const [profileData, setProfileData]
+    const [
+
+        profileData,
+
+        setProfileData
+
+    ]
+
         = useState({
-            skills: "",
+
+            fullName: "",
+
+            headline: "",
+
+            location: "",
+
+            phone: "",
+
+            email: "",
+
+            linkedin: "",
+
+            github: "",
+
+            portfolio: "",
+
+            skills: [],
+
             education: "",
+
             experience: "",
-            resume: ""
+
+            bio: ""
+
         });
+
+
+    const [
+
+        profileImage,
+
+        setProfileImage
+
+    ]
+
+        = useState(null);
 
     // RESUME FILE
 
@@ -54,6 +105,64 @@ function CandidateDashboard({
         setShowChatBot]
         = useState(false);
 
+    const scanResume = () => {
+
+        if (!atsFile) {
+
+            alert(
+                "Please upload PDF"
+            );
+
+            return;
+
+        }
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "file",
+            atsFile
+        );
+
+        axios.post(
+            `${API_BASE_URL}/ats/scan`,
+            formData,
+
+
+            {
+
+                headers: {
+
+                    "Content-Type":
+                        "multipart/form-data"
+
+                }
+
+            }
+
+        )
+
+            .then(response => {
+
+                setAtsResult(
+                    response.data
+                );
+
+            })
+
+            .catch(error => {
+
+                console.log(error);
+
+                alert(
+                    "ATS Scan Failed"
+                );
+
+            });
+
+    };
+
     // FETCH DATA
 
     useEffect(() => {
@@ -61,7 +170,7 @@ function CandidateDashboard({
         // FETCH JOBS
 
         axios.get(
-            "http://localhost:8085/jobs"
+            `${API_BASE_URL}/jobs`
         )
 
             .then(response => {
@@ -79,7 +188,7 @@ function CandidateDashboard({
         // FETCH PROFILE
 
         axios.get(
-            `http://localhost:8085/profile/${user.id}`
+            `${API_BASE_URL}/profile/${user.id}`
         )
 
             .then(response => {
@@ -90,16 +199,51 @@ function CandidateDashboard({
                         response.data
                     );
 
+                    if (response.data.profileImage) {
+
+                        setProfileImage(
+                            `${API_BASE_URL}/uploads/${response.data.profileImage}`
+                        );
+
+                    }
+
                     setProfileData({
 
+                        fullName:
+                            response.data.fullName || "",
+
+                        email:
+                            response.data.email || "",
+
+                        headline:
+                            response.data.headline || "",
+
+                        location:
+                            response.data.location || "",
+
+                        phone:
+                            response.data.phone || "",
+
+                        linkedin:
+                            response.data.linkedin || "",
+
+                        github:
+                            response.data.github || "",
+
+                        portfolio:
+                            response.data.portfolio || "",
+
+                        bio:
+                            response.data.bio || "",
+
                         skills:
-                            response.data.skills,
+                            response.data.skills || [],
 
                         education:
-                            response.data.education,
+                            response.data.education || "",
 
                         experience:
-                            response.data.experience
+                            response.data.experience || ""
 
                     });
 
@@ -120,7 +264,7 @@ function CandidateDashboard({
     const applyJob = (job) => {
 
         axios.post(
-            "http://localhost:8085/applications",
+            `${API_BASE_URL}/applications`,
             {
                 candidate: user,
                 job: job
@@ -147,12 +291,23 @@ function CandidateDashboard({
 
     const handleProfileChange = (e) => {
 
+        const { name, value } = e.target;
+
         setProfileData({
 
             ...profileData,
 
-            [e.target.name]:
-                e.target.value
+            [name]:
+
+                name === "skills"
+
+                    ?
+
+                    value.split(",")
+
+                    :
+
+                    value
 
         });
 
@@ -162,13 +317,110 @@ function CandidateDashboard({
 
     const saveProfile = () => {
 
+        if (
+
+            !profileData.fullName
+
+            ||
+
+            !profileData.email
+
+            ||
+
+            !profileData.location
+
+            ||
+
+            !profileData.headline
+
+            ||
+
+            !profileData.phone
+
+            ||
+
+            !profileData.skills
+
+            ||
+
+            !profileData.education
+
+        ) {
+
+            alert(
+                "Please fill all required fields"
+            );
+
+            return;
+
+        }
+
         const formData =
             new FormData();
 
         formData.append(
+
             "skills",
-            profileData.skills
+
+            Array.isArray(
+                profileData.skills
+            )
+
+                ?
+
+                profileData.skills.join(",")
+
+                :
+
+                profileData.skills
+
         );
+
+        formData.append(
+            "fullName",
+            profileData.fullName
+        );
+
+        formData.append(
+            "email",
+            profileData.email
+        );
+
+        formData.append(
+            "headline",
+            profileData.headline
+        );
+
+        formData.append(
+            "location",
+            profileData.location
+        );
+
+        formData.append(
+            "phone",
+            profileData.phone
+        );
+
+        formData.append(
+            "linkedin",
+            profileData.linkedin
+        );
+
+        formData.append(
+            "github",
+            profileData.github
+        );
+
+        formData.append(
+            "portfolio",
+            profileData.portfolio
+        );
+
+        formData.append(
+            "bio",
+            profileData.bio
+        );
+
 
         formData.append(
             "education",
@@ -194,8 +446,31 @@ function CandidateDashboard({
 
         }
 
+
+
+        if (
+
+            profileImage
+
+            &&
+
+            typeof profileImage !==
+            "string"
+
+        ) {
+
+            formData.append(
+
+                "profileImage",
+
+                profileImage
+
+            );
+
+        }
+
         axios.post(
-            "http://localhost:8085/profile/upload",
+            `${API_BASE_URL}/profile/upload`,
             formData,
             {
                 headers: {
@@ -213,20 +488,79 @@ function CandidateDashboard({
 
                 setProfileData({
 
+                    fullName:
+                        response.data.fullName || "",
+
+                    email:
+                        response.data.email || "",
+
+                    headline:
+                        response.data.headline || "",
+
+                    location:
+                        response.data.location || "",
+
+                    phone:
+                        response.data.phone || "",
+
+                    linkedin:
+                        response.data.linkedin || "",
+
+                    github:
+                        response.data.github || "",
+
+                    portfolio:
+                        response.data.portfolio || "",
+
+                    bio:
+                        response.data.bio || "",
+
                     skills:
-                        response.data.skills,
+                        response.data.skills || [],
 
                     education:
-                        response.data.education,
+                        response.data.education || "",
 
                     experience:
-                        response.data.experience
+                        response.data.experience || ""
 
                 });
 
                 alert(
                     "Profile Saved"
                 );
+
+                setProfileData({
+
+                    fullName: "",
+
+                    headline: "",
+
+                    location: "",
+
+                    phone: "",
+
+                    email: "",
+
+                    linkedin: "",
+
+                    github: "",
+
+                    portfolio: "",
+
+                    skills: [],
+
+                    education: "",
+
+                    experience: "",
+
+                    bio: ""
+
+                });
+
+                setResumeFile(null);
+
+                setProfileImage(null);
 
             })
 
@@ -287,18 +621,25 @@ function CandidateDashboard({
 
             <div className="sidebar">
 
-                <h1 className="mobile-logo">
-                    JobDekho
-                </h1>
+                <div className="logo-section">
 
-                <h2>
+                    <img
+                        src="/logo.png"
+                        alt="Ardhnarishwar Logo"
+                        className="sidebar-logo-img"
+                    />
+
+                    <h1 className="sidebar-mobile-logo">
+                        Ardhnarishwar
+                    </h1>
+
+                </div>
 
 
-                    <br />
+                <br />
 
 
 
-                </h2>
                 <ul>
 
                     <li
@@ -336,6 +677,18 @@ function CandidateDashboard({
                     >
                         CV Maker
                     </li>
+
+                    <li
+                        onClick={() =>
+                            setActiveSection(
+                                "ats"
+                            )}
+                    >
+
+                        ATS Checker
+
+                    </li>
+
 
                     <li onClick={logout}>
                         Logout
@@ -520,26 +873,213 @@ function CandidateDashboard({
                                 My Profile
                             </h2>
 
+                            {/* PROFILE IMAGE */}
+
+                            <div className="profile-header-section">
+
+                                <div className="profile-image-upload">
+                                    <img
+
+                                        src={
+
+                                            profileImage
+
+                                                ?
+
+                                                typeof profileImage === "string"
+
+                                                    ?
+
+                                                    profileImage
+
+                                                    :
+
+                                                    URL.createObjectURL(
+                                                        profileImage
+                                                    )
+
+                                                :
+
+                                                "/default-profile.png"
+
+                                        }
+
+                                        alt="Profile"
+
+                                        className="profile-preview-image"
+
+                                    />
+
+
+
+                                    <label
+                                        htmlFor="profileImageInput"
+
+                                        className="edit-image-btn"
+                                    >
+
+                                        ✏️
+
+                                    </label>
+
+                                    <input
+
+                                        id="profileImageInput"
+
+                                        type="file"
+
+                                        accept="image/*"
+
+                                        style={{
+                                            display: "none"
+                                        }}
+
+                                        onChange={(e) =>
+
+                                            setProfileImage(
+                                                e.target.files[0]
+                                            )
+
+                                        }
+
+                                    />
+
+                                </div>
+
+                            </div>
+
+                            <label>
+
+                                Full Name
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="fullName"
+                                value={profileData.fullName}
+                                onChange={handleProfileChange}
+                            />
+
+                            <label>
+
+                                Professional Headline
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="headline"
+                                value={profileData.headline}
+                                onChange={handleProfileChange}
+                            />
+
+                            <label>
+
+                                Location
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="location"
+                                value={profileData.location}
+                                onChange={handleProfileChange}
+                            />
+
+                            <label>
+
+                                Phone Number
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone"
+                                value={profileData.phone}
+                                onChange={handleProfileChange}
+                            />
+
+                            <label>
+
+                                Email
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                value={profileData.email}
+                                onChange={handleProfileChange}
+                            />
+
+
+                            <label>
+
+                                Skills
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
+
                             <input
                                 type="text"
                                 name="skills"
-                                placeholder="Skills"
-                                value={profileData.skills}
-                                onChange={
-                                    handleProfileChange
+                                value={
+
+                                    Array.isArray(
+                                        profileData.skills
+                                    )
+
+                                        ?
+
+                                        profileData.skills.join(",")
+
+                                        :
+
+                                        profileData.skills
+
                                 }
+                                onChange={handleProfileChange}
                             />
+
+                            <label>
+
+                                Education
+
+                                <span className="required-star">
+                                    *
+                                </span>
+
+                            </label>
 
                             <input
                                 type="text"
                                 name="education"
-                                placeholder="Education"
-                                value={
-                                    profileData.education
-                                }
-                                onChange={
-                                    handleProfileChange
-                                }
+                                value={profileData.education}
+                                onChange={handleProfileChange}
                             />
 
                             <input
@@ -554,18 +1094,64 @@ function CandidateDashboard({
                                 }
                             />
 
-                            {/* RESUME */}
+                            <input
+                                type="text"
+                                name="linkedin"
+                                placeholder="LinkedIn URL"
+                                value={profileData.linkedin}
+                                onChange={handleProfileChange}
+                            />
+
 
                             <input
-                                type="file"
-                                onChange={(e) =>
-
-                                    setResumeFile(
-                                        e.target.files[0]
-                                    )
-
-                                }
+                                type="text"
+                                name="portfolio"
+                                placeholder="Portfolio URL"
+                                value={profileData.portfolio}
+                                onChange={handleProfileChange}
                             />
+
+                            <textarea
+
+                                name="bio"
+
+                                placeholder="About Me"
+
+                                value={
+                                    profileData.bio
+                                }
+
+                                onChange={
+                                    handleProfileChange
+                                }
+
+                            ></textarea>
+
+                            {/* RESUME */}
+
+                            <label className="custom-file-upload">
+
+                                <i className="fa-solid fa-file-arrow-up"></i>
+
+                                Upload Resume (PDF)
+
+                                <input
+
+                                    type="file"
+
+                                    accept=".pdf"
+
+                                    onChange={(e) =>
+
+                                        setResumeFile(
+                                            e.target.files[0]
+                                        )
+
+                                    }
+
+                                />
+
+                            </label>
 
                             <button
                                 onClick={saveProfile}
@@ -598,9 +1184,29 @@ function CandidateDashboard({
                                         <div className="profile-top">
 
                                             <img
-                                                src="https://i.pravatar.cc/150"
-                                                alt="profile"
-                                                className="profile-image"
+
+                                                src={
+
+                                                    savedProfile?.profileImage
+
+                                                        ?
+
+                                                        `${API_BASE_URL}/uploads/`
+
+                                                        +
+
+                                                        savedProfile.profileImage
+
+                                                        :
+
+                                                        "/default-profile.png"
+
+                                                }
+
+                                                alt="Profile"
+
+                                                className="profile-preview-image"
+
                                             />
 
                                             <div className="profile-details">
@@ -616,8 +1222,7 @@ function CandidateDashboard({
 
                                                             ?
 
-                                                            savedProfile.skills
-                                                                .split(",")[0]
+                                                            savedProfile.skills[0]
 
                                                             :
 
@@ -841,6 +1446,163 @@ function CandidateDashboard({
                     )
                 }
 
+                {
+                    activeSection ===
+                    "ats"
+
+                    && (
+
+                        <div className="ats-section">
+
+                            <h1>
+                                ATS Resume Checker
+                            </h1>
+
+                            {/* JOB SELECT */}
+
+                            <select
+
+                                value={selectedJob}
+
+                                onChange={(e) =>
+
+                                    setSelectedJob(
+                                        e.target.value
+                                    )
+
+                                }
+
+                            >
+
+                                <option value="">
+                                    Select Job
+                                </option>
+
+                                {
+
+                                    jobs.map(job => (
+
+                                        <option
+                                            key={job.id}
+                                            value={job.id}
+                                        >
+
+                                            {job.title}
+
+                                        </option>
+
+                                    ))
+
+                                }
+
+                            </select>
+
+                            {/* PDF UPLOAD */}
+
+                            <input
+
+                                type="file"
+
+                                accept=".pdf"
+
+                                onChange={(e) => {
+
+                                    const file =
+                                        e.target.files[0];
+
+                                    if (
+
+                                        file
+
+                                        &&
+
+                                        file.type !==
+                                        "application/pdf"
+
+                                    ) {
+
+                                        alert(
+                                            "Only PDF files allowed"
+                                        );
+
+                                        return;
+
+                                    }
+
+                                    setAtsFile(file);
+
+                                }}
+
+                            />
+
+                            {/* BUTTON */}
+
+                            <button
+                                onClick={scanResume}
+                            >
+
+                                Scan Resume
+
+                            </button>
+
+                            {/* RESULT */}
+
+                            {
+
+                                atsResult && (
+
+                                    <div className="ats-result">
+
+                                        <h2>
+
+                                            ATS Score:
+                                            {" "}
+
+                                            {atsResult.score}%
+
+                                        </h2>
+
+                                        <p>
+
+                                            Matched Skills:
+                                            {" "}
+
+                                            {
+
+                                                atsResult
+                                                    .matchedSkills
+                                                    .join(", ")
+
+                                            }
+
+                                        </p>
+
+                                        <p>
+
+                                            Missing Skills:
+                                            {" "}
+
+                                            {
+
+                                                atsResult
+                                                    .missingSkills
+                                                    .join(", ")
+
+                                            }
+
+                                        </p>
+
+                                    </div>
+
+                                )
+
+                            }
+
+                        </div>
+
+                    )
+                }
+
                 {/* CV MAKER */}
 
                 {
@@ -886,7 +1648,7 @@ function CandidateDashboard({
                 )
             }
 
-        </div>
+        </div >
 
     );
 }

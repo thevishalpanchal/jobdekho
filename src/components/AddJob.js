@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import API_BASE_URL from "../config";
 function AddJob() {
 
     const [job, setJob] = useState({
@@ -24,7 +24,7 @@ function AddJob() {
 
         e.preventDefault();
 
-        axios.post("http://localhost:8085/jobs", job)
+        axios.post(`${API_BASE_URL}/jobs`, job)
             .then(response => {
                 alert("Job Added Successfully");
             })

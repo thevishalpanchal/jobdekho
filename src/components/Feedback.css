@@ -1,0 +1,235 @@
+.feedback-page{
+
+    padding:80px 60px;
+
+    background:
+    linear-gradient(
+      180deg,
+      #071c36,
+      #0f172a
+    );
+
+    color:white;
+
+    min-height:100vh;
+}
+
+.feedback-header{
+
+    text-align:center;
+
+    margin-bottom:50px;
+}
+
+.feedback-icon{
+
+    width:80px;
+    height:80px;
+
+    margin:auto;
+
+    border-radius:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #6366f1
+    );
+
+    margin-bottom:20px;
+}
+
+.feedback-header h1{
+
+    font-size:55px;
+}
+
+.feedback-header span{
+
+    color:#8b5cf6;
+}
+
+.feedback-header p{
+
+    color:#cbd5e1;
+}
+
+.feedback-container{
+
+    display:grid;
+
+    grid-template-columns:1.2fr 1fr;
+
+    gap:30px;
+}
+
+.feedback-form-card,
+.review-card,
+.ratings-card{
+
+    background:
+    rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(12px);
+
+    border-radius:25px;
+
+    padding:30px;
+}
+
+.emoji-rating{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:35px;
+
+    margin:25px 0;
+}
+
+.emoji-rating span{
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.emoji-rating span:hover{
+
+    transform:scale(1.2);
+}
+
+.feedback-form-card select,
+.feedback-form-card textarea,
+.feedback-form-card input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#1e293b;
+
+    color:white;
+
+    margin-bottom:15px;
+}
+
+.feedback-row{
+
+    display:flex;
+
+    gap:15px;
+}
+
+.feedback-submit-btn{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #6366f1
+    );
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.review-item{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:#1e293b;
+}
+
+.stars{
+
+    margin:10px 0;
+}
+
+.rating-bar{
+
+    margin-top:20px;
+}
+
+.bar{
+
+    height:10px;
+
+    border-radius:20px;
+
+    background:#1e293b;
+
+    margin-top:8px;
+
+    overflow:hidden;
+}
+
+.bar div{
+
+    height:100%;
+
+    background:
+    linear-gradient(
+      90deg,
+      #8b5cf6,
+      #6366f1
+    );
+}
+
+.ratings-card{
+
+    margin-top:20px;
+}
+
+@media(max-width:900px){
+
+.feedback-container{
+
+    grid-template-columns:1fr;
+}
+
+.feedback-header h1{
+
+    font-size:38px;
+}
+
+.feedback-page{
+
+    padding:40px 20px;
+}
+
+}
